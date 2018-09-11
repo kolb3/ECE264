@@ -63,7 +63,12 @@ distance (const DataPoint * datapoint, const Centroid * centroid)
   // since this is for comparison only, there is no need to call sqrt
   long long int sum = 0;	// must initialize to zero
   // find Euclidean distance and then return 'sum' without calling sqrt
-	return sum;
+  for(i = 0; i < dim; i++)
+  {
+    long long int diff = datapoint -> data1[i] - centroid -> data2[i];
+    sum += diff * diff;
+  }
+  return sum;
 }
 
 #endif
@@ -78,10 +83,20 @@ distance (const DataPoint * datapoint, const Centroid * centroid)
 // centroid from which the distance is smaller than previously seen,
 int closestCentroid (int kval, DataPoint * datapoint, Centroid * *centroids)
 {
+  int count;
+  long long int closest = (2^64 - 1);
   int mindex; //index of the closest centroid
   // Please note that return value of distance is long long int, so initialize the values with the same type
   // go through each centroid and find the distance
   // keep track of minimum difference and index of centroid which has the smallest distance
+  for(count = 0; count < kval; count++)
+  {
+    if(closest < distance;)
+    {
+      count = mindex;
+    }
+
+  }
   return mindex;
 }
 
@@ -100,6 +115,8 @@ void kmean (int kval, int nval, DataPoint * *datapoints, Centroid * *centroids)
   int truth = 0;
   int iter;
   int count = 0;
+  int cluster[10];
+  int center[10];
 
 		// reset all centroids
 		Centroid_reset;
@@ -112,7 +129,7 @@ void kmean (int kval, int nval, DataPoint * *datapoints, Centroid * *centroids)
 		// find the centroid for initial random assignment of datapoints
 		for(iter = 0; iter < kval; iter++)
     {
-      Centroid_findCenter(cluster[iter]);
+      center[iter] = Centroid_findCenter(cluster[iter]);
     }
 		// Now start the loop till convergence is met - (Please see README for understanding kmean algorithm convergence condition)
 		//
@@ -121,6 +138,32 @@ void kmean (int kval, int nval, DataPoint * *datapoints, Centroid * *centroids)
 		// 3. reset all the centroids
 		// 4. go through each datapoint again and add this datapoint to its centroid using Centroid_addPoint function
 		// 5. find the new centroid for each cluster by calling Centroid_findCenter
+    while(!truth)
+    {
+      for(count = 0; count < nval; count++)
+      {
+        index = closestCentroid;
+        datapoint[count] -> cluster = index;
+      }
+      Centroid_reset;
+      for(iter = 0; iter < kval; iter++)
+      {
+        hold[iter] = center[iter];
+        center[iter] = Centroid_findcenter(cluser[iter]);
+        if(hold[iter] != center[iter])
+        {
+          truth++;
+        }
+      }
+      if(truth = 0)
+      {
+        truth++;
+      }
+      else
+      {
+        truth = 0;
+      }
+    }
 }
 
 #endif
