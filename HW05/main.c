@@ -87,7 +87,7 @@ void fillArray(int* arr, int count, char* file_name)
 int main(int argc, char * * argv)
 {
   // input file will be specified from the terminal - test files are made available in inputs folder
-
+  FILE * argv[1]
   // check for missing input file, if so, "return EXIT_FAILURE;"
   if(argv[1] = NULL)
   {
@@ -106,10 +106,10 @@ int main(int argc, char * * argv)
   if(arr == NULL)
   {
     fprintf(stderr, "malloc fail\n");
-    return EXIT_FAILURE
+    return EXIT_FAILURE;
   }
   // call the fillArray(arr, count, file_name); and store the values from the file in the array.
-  fillArry(arr, count, file_filename);
+  fillArry(arr, count, file_name);
   // Use qsort() function, after defining the comparator() function - "qsort (arr, count, sizeof(int), comparator);"
   qsort(arr, count, sizeof(int), comparator);
   // call the printArray() function provided to you.
