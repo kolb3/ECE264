@@ -62,10 +62,13 @@ distance (const DataPoint * datapoint, const Centroid * centroid)
 {
   // since this is for comparison only, there is no need to call sqrt
   long long int sum = 0;	// must initialize to zero
+  int i;
+  int dim;
+  datapoint -> dimension = dim;
   // find Euclidean distance and then return 'sum' without calling sqrt
   for(i = 0; i < dim; i++)
   {
-    long long int diff = datapoint -> data1[i] - centroid -> data2[i];
+    long long int diff = datapoint -> data[i] - centroid -> data[i];
     sum += diff * diff;
   }
   return sum;
@@ -84,14 +87,15 @@ distance (const DataPoint * datapoint, const Centroid * centroid)
 int closestCentroid (int kval, DataPoint * datapoint, Centroid * *centroids)
 {
   int count;
-  long long int closest = (2^64 - 1);
+  long long int closest = ((2^64) - 1);
   int mindex; //index of the closest centroid
   // Please note that return value of distance is long long int, so initialize the values with the same type
   // go through each centroid and find the distance
   // keep track of minimum difference and index of centroid which has the smallest distance
   for(count = 0; count < kval; count++)
   {
-    if(closest < distance;)
+    length = distance;
+    if(distance < closest)
     {
       count = mindex;
     }
@@ -115,16 +119,14 @@ void kmean (int kval, int nval, DataPoint * *datapoints, Centroid * *centroids)
   int truth = 0;
   int iter;
   int count = 0;
-  int cluster[10];
   int center[10];
+  int index;
+  int hold[10] = 0
 
 		// reset all centroids
 		Centroid_reset;
 		// initialize each data point to a cluster between 0 and kval - 1
-    for(iter = 0; iter < nval; iter++)
-    {
-      datapoint[iter] -> cluster = rand() % kval;
-    }
+      datapoint[ -> cluster = rand() % kval;
 
 		// find the centroid for initial random assignment of datapoints
 		for(iter = 0; iter < kval; iter++)
