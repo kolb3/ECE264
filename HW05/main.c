@@ -26,7 +26,7 @@ int comparator(const void *a, const void *b)
 {
     //type cast both the parameters to the type const int*) a:
 	//FOR EXAMPLE: const int* ia = (const int *) a;
-
+  //still missing some parameters here
   //if parameter2 > parameter1; return -1
   if(b > a)
   {
