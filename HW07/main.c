@@ -164,7 +164,7 @@ int main(int argc, char * * argv)
   fclose(fptr);
 #ifdef TEST_MERGESORT
 
-  mergeSort(&arr, 0, ind);
+  mergeSort(arr, 0, ind);  //changed the &arr to just arr
   // modify here between ifdef and endif
   // do not modify anywhere else in this function
   // call mergesort function and provide the correct arguments (Hint: array, start index, end index)

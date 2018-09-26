@@ -4,16 +4,21 @@ WARNING = -Wall -Wshadow --pedantic
 ERROR = -Wvla -Werror
 GCC = gcc -std=c99 -g $(WARNING) $(ERROR)
 
-TESTFALGS = -DTEST_MERGE -DTEST_MERGESORT -DTEST_MERGESSORT -DTEST_MAIN
+TESTFALGS = -DTEST_MERGESORT -DTEST_MERGESSORT -DTEST_MERGE
 
 SRCS = main.c
 OBJS = $(SRCS:%.c=%.o)
 
 main: $(OBJS)
-	$(GCC) $(TESTFALGS) $(OBJS)
+	$(GCC) $(TESTFALGS) $(OBJS) -o main
 
 c.o:
 	$(GCC) $(TESTFALGS) -c $*.c
+
+#need test mem for out2 and 3
+
+testmemory: main
+	$(VAL) ./main Input/Test1 output1
 
 testall: test1 test2 test3
 
@@ -35,4 +40,4 @@ test3: main
 	diff -i -w output3.txt Expected/Expected3.txt
 
 clean:
-	rm -f main *.o
+	rm -f main *.o main?
