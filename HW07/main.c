@@ -3,9 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+
 #ifdef TEST_MERGE
 /* The merge(arr, l, m, r) is key process that assumes that arr[l..m] and
 arr[m+1..r] are sorted and merges the two sorted sub-arrays into one.*/
+
 void merge(int arr[], int l, int m, int r)
 {
  /* int l defines the start index of the left sub array
@@ -19,8 +21,14 @@ void merge(int arr[], int l, int m, int r)
     int n2 =  r - m; //The number of elements in trhe right sub array
 
     //create temporary arrays dynamically to help with sorting
-    int *L=malloc(sizeof(* L) * n1);
-    int *R=malloc(sizeof(* R) * n2);
+    int *L=malloc(sizeof(int) * n1);
+    int *R=malloc(sizeof(int) * n2);
+
+    if(L == NULL && R == NULL)
+    {
+	fprtinf(stderr, "malloc did not work in merge\n");
+    }    
+
     /* NOTE:
     L[] is the left sub array
     R[] is the right sub array
@@ -38,12 +46,12 @@ void merge(int arr[], int l, int m, int r)
 
     for(iter = 0; iter < n2; iter++)
     {
-      R[iter] = arr[m+1 + iter];
+      R[iter] = arr[m + 1 + iter];
     }
 
     iter = 0;
     int iter2 = 0;
-    int ct = 0;
+    int ct = 1;
 
     while(iter < n1 && iter2 < n2)
     {
@@ -87,6 +95,7 @@ void merge(int arr[], int l, int m, int r)
 
 /* Merge Sort uses recursion to call itself. Thus, efficiently dividing the array into two halves.
 Then it must sort each half individually and finally join them back together using merge() into a single sorted array*/
+
 #ifdef TEST_MERGESSORT
 void mergeSort(int arr[], int l, int r)
 {
@@ -96,7 +105,7 @@ void mergeSort(int arr[], int l, int r)
     m will represent the endpoint of the left sub array.
     For example- an array of size 6 has start index l= 0, and end index r= 5,
     Therefore, m = 2*/
-    if r > 1
+    if (r > 1)
     {
       int m  = l + ((r - 1) / 2);
 
@@ -116,6 +125,7 @@ void mergeSort(int arr[], int l, int r)
 
 }
 #endif
+
 int main(int argc, char * * argv)
 {
   // read input file
@@ -165,10 +175,12 @@ int main(int argc, char * * argv)
 #ifdef TEST_MERGESORT
 
   mergeSort(&arr, 0, ind);
+
   // modify here between ifdef and endif
   // do not modify anywhere else in this function
   // call mergesort function and provide the correct arguments (Hint: array, start index, end index)
 #endif
+
   int i;
    /* open the file for writing*/
   FILE * fp = fopen(argv[2], "w");

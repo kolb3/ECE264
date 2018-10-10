@@ -12,18 +12,23 @@
 #ifdef TEST_COMP
 int cmp(const void *a, const void *b)
 {
-    *typecasted_a = (Vector *)a;
-    *typecasted_b = (Vector *)b;
-    int pmtr1 = typecasted_a -> x;
-    int pmtr2 = typecasted_b -> x;
-    //typecast the inputs into Vector * form.
-        //For example: Vector *typecasted_b = (Vector *)b;
-    //compare typecased_a->x and typecasted_b->x, and return appropriate values.
-    if(pmtr1 > pmtr2){return 1;}
+	Vector *one = (Vector *)a;
+	Vector *two = (Vector *)b;
+	int ans;
 
-    if(pmrt1 == pmtr2){return 0;}
-
-    return (-1);
+	if(one->x < two->x)
+	{
+		ans = -1;
+	}
+	if(one->x == two->x)
+	{
+		ans = 0;
+	}
+	if(one->x > two->x)
+	{
+		ans = 1;
+	}
+    return (ans);
 }
 #endif
 
@@ -32,13 +37,15 @@ int numberOfElements(char* in_file_name)
 {
     //initialize file_pointer, and open file in read mode.
         //Please note that we are working with binary files.
-    FILE * fptr = fopen(int_file_name, "r");
+
+    FILE * fptr = fopen(in_file_name, "rb");
     fseek(fptr, 0, SEEK_END);
     long info = ftell(fptr);
-    float numelm = info / sizeof(Vector);
+    float numelem = info / sizeof(Vector);
     fclose(fptr);
     return(numelem);
-    //use fseek(file_pointer, 0, SEEK_END); to point to the end of the file.
+
+    //use fseek(fptr, 0, SEEK_END); to point to the end of the file.
     //use long where = ftell(file_pointer); to get the size of the file.
     //use float numelem = where / sizeof(Vector); to obtain the number of elements
     //return numelem; to send the number of elements back to main().
@@ -49,10 +56,13 @@ int numberOfElements(char* in_file_name)
 void fillVector(Vector* vector, int count, char * in_file_name)
 {
     // open binary file to read after initializing file_pointer
-    FILE * fptr = fopen(in_file_name, "r");
+
+    FILE * fptr = fopen(in_file_name, "rb");
     fread(vector, sizeof(Vector), count, fptr);
+
     //How to read the file?
         //use fread(vector, sizeof(Vector), count, file_pointer)
+    
     fclose(fptr);
 }
 #endif
@@ -61,10 +71,13 @@ void fillVector(Vector* vector, int count, char * in_file_name)
 void writeFile(Vector* vector, int count, char* out_file_name)
 {
     // open binary file to write after initializing file_pointer
-    FILE * fptr = fopen(in_file_name, "r");
+
+    FILE * fptr = fopen(out_file_name, "wb");
+
     //How to write to the file?
         //use fwrite(vector, sizeof(Vector), count, file_pointer)
-        fwrite(vector, sizeof(Vector), count, fptr);
+
+    fwrite(vector, sizeof(Vector), count, fptr);
     fclose(fptr);
 }
 #endif

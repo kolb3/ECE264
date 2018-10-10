@@ -20,28 +20,35 @@ int main(int argc, char * * argv)
       return EXIT_FAILURE;
     }
     // check for missing input file/output file, if so, "return EXIT_FAILURE;"
+    
     char* in_file = argv[1];
     char* out_file = argv[2];
+    
     // store the input file name in a variable, from argv[1]. For example, char* in_file = argv[1];
     // store the output file name in a variable, from argv[2]. For example, char* out_file = argv[2];
-    float total = numberOfElements(char* in_file);
-    // call numberOfElements(in_file) to obtain the number of elements in the file.
-    int arr = malloc(sizeof(Vector) * total);
-    // allocate memory to store the numbers (initialize an array of structures)
+    float total = numberOfElements(in_file);
+    
+	// call numberOfElements(in_file) to obtain the number of elements in the file.
+    Vector * vector = malloc(sizeof(Vector) * total);
+    
+	// allocate memory to store the numbers (initialize an array of structures)
             // check for malloc fail, if so, "return EXIT_FAILURE;"
-    if(arr == Null)
+    if(vector == NULL)
     {
       fprintf(stderr, "malloc did not work\n");
       return EXIT_FAILURE;
     }
-    //call the fillVector(vector, count, in_file); and store the values from the file in the array of strucures.
-    fillVector(arr, total, char* in_file);
+    
+	//call the fillVector(vector, count, in_file); and store the values from the file in the array of strucures.
+
+    fillVector(vector, total, in_file);
 
     //Use qsort() function, after defining the comparator() function.
             //ENSURE THE COMPARATOR FUNCTION IS USED TO SORT THE ARRAY OF STRUCTURES W.R.T. THE STRUCTURE VARIABLE "x".
-    qsort(arr, total, sizeof(int), cmp);
 
-    writeFile(arr, total, out_file);
+    qsort(vector, total, sizeof(Vector), cmp);
+
+    writeFile(vector, total, out_file);
 
     //call the writeFile(vector,count, out_file); to save the sorted vector into the file.
     return EXIT_SUCCESS;
