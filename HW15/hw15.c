@@ -34,6 +34,10 @@ Node * CreateNode(int val)
 	/*
 	Create a new Node with `value` set to `val`. Set `next` to NULL.
 	*/
+	Node * header = malloc(sizeof(Node));
+	header->value = val;
+	header->next = NULL;
+	return(header);
 }
 #endif
 
@@ -44,6 +48,27 @@ void LinkedListCreate(Node ** head, char* name)
 	/*
 	Create a linked list from the input file referenced by `name`.
 	*/
+	//Node * one = (*head);
+	Node * two = NULL;
+	int x;
+	FILE * fptr = NULL;
+	fptr = fopen(name, "r");
+	if(fptr == NULL)
+	{
+		fprintf(stderr, "Fopen failed\n");
+		fclose(fptr);
+		return; 
+	}
+	fscanf(fptr,"%d",&x);
+	(*head) = CreateNode(x);
+	Node *one = *head;
+	while(fscanf(fptr,"%d",&x) == 1)
+	{
+		two = CreateNode(x);
+		one->next = two;
+		one = two;
+	}
+	fclose(fptr);
 }
 #endif
 #ifdef TEST_REMOVED
@@ -59,5 +84,52 @@ void RemoveDuplicate(Node *headRef)
 	To delete a node: we will map the next Node of the previous Node to the Node after the current Node.
 	Print the linked list after all repetitions have been removed. Use the function given to you for priniting.
 	*/
+	Node * check = NULL;
+	Node * two = NULL;
+	Node * q = headRef;
+	/*if(q->next == NULL || q == NULL)
+	{
+		return;
+	}*/
+	//int elem = 1;
+	while(q != NULL && q->next != NULL)
+	{	
+		check = q;
+		while(check->next != NULL )//&& q->value != check->value)
+		{
+			//two = check->next;
+			if(q->value == check->next->value)
+			{
+				two = check->next;
+				check->next = check->next->next;
+				free(two);
+			}
+			else
+			{
+				check = check->next;
+			}
+			//two = two->next
+			//check = two;
+		}
+		/*for(int i = 1; i<elem -1; i++)
+		{
+			if(check->value == q->value)
+			{
+				int p = 1;
+				while(p < (elem -1))
+				{
+					p++;
+					two = two->next;
+				}
+				two->next = q->next->next;
+			}
+			check = check->next;
+			two = headRef;
+		}*/
+		q = q->next;
+	}
+	
+	LinkedListPrint(headRef);
+	
 }
 #endif

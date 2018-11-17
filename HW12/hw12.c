@@ -35,9 +35,21 @@ void LinkedListPrint(Node * head)
 
 Node * CreateNode(int value)
 {
-	// allocate memory for the new Node*
+	// allocate memory for the new Node*	
+ 	
+	Node * newhead = malloc(sizeof(Node)); //do i need this??????
+	
+	if(newhead == NULL)
+	{
+		fprintf(stderr, "memory allocation error in create\n");
+		return EXIT_FAILURE;
+	}
+
 	// check memory allocation fails
 	// create a Node* with the value as 'value'(input argument).
+	newhead -> value = value;
+//	newhead -> next = newhead;
+
 }
 #endif
 
@@ -50,8 +62,24 @@ Node * CreateNode(int value)
 // For example, if the singly linkedlist length is 4, the value of the nodes will be 0 1 2 3
 void LinkedListCreate(Node * * head, int length)
 {
+	Node * t; //not sure if i need it???
+
 	// check if length is not negative
+	if(length <= 0)
+	{
+		fprintf(stderr, "Length needs to be a positive integer greater than 0\n");
+		return EXIT_FAILURE;
+	}
 	// create linked list of length as 'length'
+	int i = 0;
+	while(i < length && t != NULL)
+	{
+		Node * n = Createnode(i);
+		printf("Entered the while create loop\n");
+		t -> next = n;
+		t = t -> next;
+		i++;
+	}
 	// do not return anything
 }
 #endif
@@ -73,6 +101,10 @@ void Josephus(Node ** head, int k, int elemDivisible)
 	// implement the algorithm here
 	// remember to free the memory of the nodes
 	// print the linked list using our function when number of nodes remaining is divisible by elemDivisible
+	int c = 0;
+	Node * p = head;
+	Node * q = p -> next;
+ 	
 
 }
 

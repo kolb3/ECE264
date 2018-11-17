@@ -66,6 +66,24 @@ int FindDistance(treeNode* t, int search_query, int distance)
 	 * if the value 'search_query' does not exist in the tree, return -1.
 	 *
 	 */
+	if(t == NULL)
+	{
+		return(-1);
+	}
+	if(search_query == t->value)
+	{
+		return distance;
+	}
+	if(search_query > t->value)
+	{
+		distance = FindDistance(t->rightChild, search_query, distance + 1);
+	}
+	if(search_query < t->value)
+	{
+		distance = FindDistance(t->leftChild, search_query, distance + 1);
+	}
+
+	return distance;
 
 }
 #endif
@@ -75,6 +93,10 @@ int FindDistance(treeNode* t, int search_query, int distance)
 treeNode* CreateBST(int* a,int root, int start, int end)
 {
 
+	if(start >= end)
+	{
+		return NULL;
+	}
 	/*
 	 *
 	 * Create a node, allocate memort and assign the value of root to it.
@@ -86,8 +108,44 @@ treeNode* CreateBST(int* a,int root, int start, int end)
 	 * if start and end point to the same element in the array, then it is a leaf node. Assign the values of 
 	 *   its children accordingly.
 	 *
-	 *//////
-	 
+	 */
+	/*if(start < 1){
+	int * lc = malloc(sizeof(int)*end);
+	int * rc = malloc(sizeof(int)*end);
+	int ct = 0;
+	int iter = 0;
+	for(int i=1; i<end; i++)
+	{
+		if(a[i] < root)
+		{
+			lc[ct] = a[i];
+			ct++;
+		}
+		else
+		{
+			rc[iter] = a[i];
+			iter;
+		}
+	}}*/
+	treeNode * new = malloc(sizeof(treeNode));
+	
+	if(new == NULL)
+	{
+		return NULL;
+	}
+	new->value = a[start];
+
+	if(a[start+1] < new->value)
+	{
+		new->leftChild = CreateBST(a,a[start],start+1,end);
+	}
+	if(a[start+1] > new->value)
+	{
+		new->rightChild = CreateBST(a,a[start],start+1,end);
+	}
+	//operating that there could be an input for the exact value of the root
+	
+	return new;	 
 	 
 }
 #endif

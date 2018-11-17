@@ -36,7 +36,44 @@ int main(int argc, char **argv)
 	 *  9. Free all memory.
 	 *
 	 */
+	if(argc < 2)
+	{
+		fprintf(stderr, "Need two arguments\n");
+		return EXIT_FAILURE;
+	}
+	
+	FILE * fptr = fopen(argv[1], "r");
+	int count = 0;
+	int val;
+	
+	while(fscanf(fptr, "%d", &val) == 1)
+	{
+		count++;
+	}
+	
+	fseek(fptr,0,SEEK_SET);
+	
+	int * arr = malloc(sizeof(int)*(count - 1));
+	if(arr == NULL)
+	{
+		fprintf(stderr, "memory allocation failed\n");
+		return EXIT_FAILURE;
+	}
+	
+	for(int i = 0; i < count-1; i++)
+	{
+		fscanf(fptr, "%d", &arr[i]);
+	}
+	
+	treeNode * root = root = CreateBST(arr, arr[0], 0, count-1);
+	BinaryTreeInOrderPrint(root);
+	int dist = FindDistance(root, val, 0);
 
+	PrintDistance(dist);
+	
+	free(root);
+	free(arr);
+	fclose(fptr);
 
 }
 #endif
