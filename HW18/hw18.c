@@ -64,7 +64,7 @@ void FindMin(ListNode* head)
 
 	/*
 	ENSURE the 2nd parameter of the print function (min1) is smaller than
-	the 3rd parameter (min2). 
+	the 3rd parameter (min2).
 	Look at README, and expected output for more details.
 	*/
 
@@ -87,11 +87,20 @@ int FindDist(TreeNode* x, TreeNode* y)
 ListNode* CreateNode(int n, int dim, int* arr)
 {
 	// check for malloc error
-
+	ListNode * head = malloc(sizeof(ListNode));
 	// initialize dim
+	head -> dim = dim;
 	// both left and right childern will be NULL
+	head -> left = NULL;
+	head -> right = NULL;
 	// allocate memory for data
+	head -> data = malloc(sizeof(head->data));
+	for(int i = 0; i < dim; i++)
+	{
+		head->data = arr[i];
+	}
 	// return a ListNode
+	return head;
 }
 #endif
 
@@ -102,6 +111,9 @@ void LinkedListCreate(ListNode ** head, int n, int dim, FILE* fptr)
 	// create temp node using CreateNode
 	// read from file into an array, pass array to CreateNode
 	// assign temp to that node
+ ListNode * one = *head;
+ ListNode * two = NULL;
+
 
 	// use a loop to create nodes for the remaining elements of the list.
 }
