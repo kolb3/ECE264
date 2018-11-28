@@ -24,15 +24,25 @@ int main(int argc, char * * argv)
   fscanf(fptr, "%d", &n);
 	// dim is the second element in the file
   int dim = 0;
-  fsacnf(fptr, "%d", &dim);
+  fscanf(fptr, "%d", &dim);
 	// the rest of the data in the file are the datapoints.
   ListNode * newhead = NULL;
 	// call LinkedListCreate
   LinkedListCreate(&newhead, n, dim, fptr);
 	// call FindMin
-  FindMin(&newhead);
-
+  FindMin(newhead);
+  ListNode * temp = NULL;
   fclose(fptr);
-  free(newhead);
+	while(newhead->next != NULL)
+	{
+		temp = newhead->next->next;
+		free(newhead->next->treenode->data);
+  		free(newhead->next->treenode);
+  		free(newhead->next);
+		newhead->next = temp;
+	}
+	free(newhead->treenode->data);
+	free(newhead->treenode);
+	free(newhead);
 }
 #endif
