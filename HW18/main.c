@@ -33,7 +33,6 @@ int main(int argc, char * * argv)
   FindMin(&newhead);
 
   fclose(fptr);
-  free(arr);
   free(newhead);
 }
 #endif

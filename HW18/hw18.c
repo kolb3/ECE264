@@ -61,7 +61,30 @@ void FindMin(ListNode* head)
 {
 	// find pair of ListNodes with least distance between them.
 	// call print Function
+	ListNode * one = head;
+  ListNode * two = head-> next;
+	ListNode * newone = NULL;
+	ListNode * newtwo = NULL;
+	int max = 2147483647;
+	int dist = 0;
+  while(one->next != NULL)
+	{
+		while(two->next != NULL)
+		{
+			dist = FistDist(one, two);
+			if(dist < max)
+			{
+				max = dist;
+				newone = one;
+				newtwo = two;
+			}
+			two = two -> next;
+		}
+		one = one -> next;
+		two = one -> next;
+	}
 
+	PrintAnswer(head, newone, newtwo);
 	/*
 	ENSURE the 2nd parameter of the print function (min1) is smaller than
 	the 3rd parameter (min2).
@@ -79,6 +102,16 @@ int FindDist(TreeNode* x, TreeNode* y)
 	// x->data and y->data
 	// DO NOT FIND SQUARE ROOT (we are working with int)
 	// return the distance
+
+	int len = x->dimension;
+	int diff = 0;
+
+	for(int i = 0; i < x; i++)
+	{
+		diff += (x[i]-y[i]) * (x[i]-y[i]);
+	}
+
+	return diff;
 }
 #endif
 
@@ -88,16 +121,18 @@ ListNode* CreateNode(int n, int dim, int* arr)
 {
 	// check for malloc error
 	ListNode * head = malloc(sizeof(ListNode));
+	head -> next = NULL;
 	// initialize dim
-	head -> dim = dim;
+	head -> treenode = malloc(sizeof(TreeNode)); // Possibly need to create a second head
+	head -> treenode -> dimension = dim;
 	// both left and right childern will be NULL
-	head -> left = NULL;
-	head -> right = NULL;
+	head -> treenode -> left = NULL;
+	head -> treenode -> right = NULL;
 	// allocate memory for data
-	head -> data = malloc(sizeof(head->data));
+	head -> treenode -> data = malloc(sizeof(data) * dimension);
 	for(int i = 0; i < dim; i++)
 	{
-		head->data = arr[i];
+		head->treenode -> data[i] = arr[i];
 	}
 	// return a ListNode
 	return head;
@@ -111,8 +146,38 @@ void LinkedListCreate(ListNode ** head, int n, int dim, FILE* fptr)
 	// create temp node using CreateNode
 	// read from file into an array, pass array to CreateNode
 	// assign temp to that node
- ListNode * one = *head;
+ ListNode * one = NULL;
  ListNode * two = NULL;
+ int spot = 0;
+ fseek(fptr, 2, SEEK_SET);
+ int * arr[dim] = malloc(sizeof(int) * n * dim);
+ for(int q = 0; q < dim; q++)
+ {
+	 fscanf(fptr, "d", &arr[q]);
+ }
+ for(int i = 0; i < n; i++)
+ {
+	 spot = i;
+
+	 /*for(q = 0; q < dim; q++)
+	 {
+		 fscanf(fptr, "%d", &arr[q]);
+	 }*/
+
+	 if(i == 0)
+	 {
+		 *head = CreateNode(n, dim, arr);
+		 one = *head;
+	 }
+	 else
+	 {
+		 two = CreateNode(m,dim,&arr[spot*dim]);
+		 one -> next = two;
+		 one = two;
+	 }
+
+ }
+ free(arr);
 
 
 	// use a loop to create nodes for the remaining elements of the list.
