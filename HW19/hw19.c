@@ -127,7 +127,7 @@ ListNode* Fuse(ListNode* head, ListNode* fuse1, ListNode* fuse2)
 		temp = temp->next;
 	}
 	temp->next = element;
-	//return(element);
+	return(element);
 }
 #endif
 
