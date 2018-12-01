@@ -62,7 +62,7 @@ void FindMin(ListNode* head)
 	// find pair of ListNodes with least distance between them.
 	// call print Function
 	ListNode * one = head;
-  	ListNode * two = head-> next;
+  ListNode * two = head-> next;
 	ListNode * newone = NULL;
 	ListNode * newtwo = NULL;
 	ListNode * temp = NULL;
@@ -97,7 +97,7 @@ void FindMin(ListNode* head)
 		if(newone->treenode->data[i] < newtwo->treenode->data[i])
 		{
 			i = dim;
-		}	
+		}
 	}
 
 	PrintAnswer(head, newone, newtwo);
