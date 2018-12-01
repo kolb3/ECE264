@@ -60,12 +60,14 @@ ListNode* FindCentroid(TreeNode* x, TreeNode* y)
 	Average x->treenode.data[1] and y->treenode.data[1] to new->treenode.data[1]
 	and so on
 	*/
-	new -> treenode->left = x;
-	new -> treenode->right = y;
+	/*new -> treenode->*/ newcent->left = x;
+	/*new -> treenode->*/newcent->right = y;
+	newcent -> data = malloc(sizeof(int) * x->dimension);
+	newcent->dimension = x->dimension;
 
 	for(int i = 0; i < x->dimension; i++)
 	{
-		new->treenode->data[i] = (x->data[i] + y->data[i]) / 2 ;
+		newcent->data[i] = (x->data[i] + y->data[i]) / 2 ;
 	}
 	return(new);
 	// Return the new node
@@ -107,12 +109,12 @@ ListNode* Fuse(ListNode* head, ListNode* fuse1, ListNode* fuse2)
 	}
 	element -> treenode = eltree;
 	element ->treenode->dimension = head->treenode->dimension;
-	for(int i = 0; i < (head->treenode->dimension); i++)
-	{
+	//for(int i = 0; i < (head->treenode->dimension); i++)
+	//{
 		element = FindCentroid(fuse1->treenode,fuse2->treenode);
 		//element->treenode->left = fuse1->treenode->data;
 		//element->treenode->right = fuse2->treenode->data;
-	}
+	//}
 	ListNode * temp = head;
 	while(temp->next != NULL)
 	{
@@ -124,10 +126,13 @@ ListNode* Fuse(ListNode* head, ListNode* fuse1, ListNode* fuse2)
 		{
 			temp->next = fuse2->next;
 		}
-		temp = temp->next;
+		if(temp->next != NULL)
+		{
+			temp = temp->next;
+		}
 	}
 	temp->next = element;
-	//return(element);
+	return(head);
 }
 #endif
 
@@ -210,17 +215,18 @@ void MakeCluster(ListNode** head)
 	ListNode * two = NULL;
 	ListNode * newone = NULL;
 	ListNode * newtwo = NULL;
-	//ListNode * hold = NULL;
-	ListNode * newhead = NULL;
-	int max = (2^32) -1;
+	//ListNode * temp = NULL;
+	//ListNode * newhead = NULL;
+	int max = 0;
 	int dist = 0;
+	while((*head)->next != NULL)
+	{
 	while(one->next != NULL)
 	{
-		two = one->next;
 		while(two != NULL)
 		{
 			dist = FindDist(one->treenode, two->treenode);
-			if(dist<=max);
+			if(dist <= max);
 			{
 				max = dist;
 				newone = one;
@@ -228,11 +234,15 @@ void MakeCluster(ListNode** head)
 			}
 			two = two->next;
 		}
-		*head = Fuse(*head, newone, newtwo); // might need to set this equal to something
-		PrintAns(*head, newone, newtwo);
-
 		one = one->next;
+		two = one->next;
 	}
-	*head = one;
+		(*head) = Fuse(*head, newone, newtwo); // might need to set this equal to something
+		PrintAns(*head, newone, newtwo);
+		one = *head;
+		dist = 0;
+		max = (2^31) + 1;
+
+	}
 }
 #endif
