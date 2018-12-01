@@ -29,7 +29,7 @@ int main(int argc, char * * argv)
 	fscanf(fptr, "%d", &n);
 	// dim is available in argv[2]
 	int dim;
-	fsanf(fptr, "%d", &dim);
+	fscanf(fptr, "%d", &dim);
 	// input file is in argv[3]
 	ListNode * newhead = NULL;
 	// Create linkedList
