@@ -11,9 +11,9 @@
 int main(int argc, char * * argv)
 {
 	// check for input error
-	if(argc < 3)
+	if(argc < 2)
 	{
-		fprintf(stderr, "need 3 inputs\n");
+		fprintf(stderr, "need 2 inputs\n");
 		return EXIT_FAILURE;
 	}
 

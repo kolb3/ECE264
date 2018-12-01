@@ -51,7 +51,6 @@ ListNode* FindCentroid(TreeNode* x, TreeNode* y)
 	if(new == NULL || newcent == NULL)
 	{
 		fprintf(stderr, "malloc fail in centroid\n");
-		return EXIT_FAILURE;
 	}
 	new->treenode = newcent;
 	// Use a loop to average the data from the two parameters (x and y).
@@ -64,9 +63,9 @@ ListNode* FindCentroid(TreeNode* x, TreeNode* y)
 	new -> treenode->left = x;
 	new -> treenode->right = y;
 
-	for(int i = 0; i < x->dim; i++)
+	for(int i = 0; i < x->dimension; i++)
 	{
-		new->treenode->data[i] = (x[i] + y[i]) / 2 ;
+		new->treenode->data[i] = (x->data[i] + y->data[i]) / 2 ;
 	}
 	return(new);
 	// Return the new node
@@ -105,24 +104,23 @@ ListNode* Fuse(ListNode* head, ListNode* fuse1, ListNode* fuse2)
   if(element == NULL || eltree == NULL)
 	{
 		fprintf(stderr, "malloc error in fuse\n");
-		return EXIT_FAILURE;
 	}
 	element -> treenode = eltree;
 	element ->treenode->dimension = head->treenode->dimension;
-	for(int i = 0; i < head->dim)
+	for(int i = 0; i < (head->dimension); i++)
 	{
-		element->treenode->data = FindCentroid(fuse1->treenode,fuse2->treenode);
+		element = FindCentroid(fuse1->treenode,fuse2->treenode);
 		//element->treenode->left = fuse1->treenode->data;
 		//element->treenode->right = fuse2->treenode->data;
 	}
 	ListNode * temp = head;
-	while(temp->next = fuse1)
+	while(temp->next != NULL)
 	{
-		if(temp->next = fuse1)
+		if(temp->next == fuse1)
 		{
 			temp->next = fuse1->next;
 		}
-		if(temp->next = fuse2)
+		if(temp->next == fuse2)
 		{
 			temp->next = fuse2->next;
 		}
