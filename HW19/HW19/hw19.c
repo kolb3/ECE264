@@ -46,14 +46,13 @@ ListNode* FindCentroid(TreeNode* x, TreeNode* y)
 	// new -> treenode.left should be x
 	// new -> treenode.right should be y
 	// x -> treenode.data should be less than y -> treenode.data (refer to README)
-	
 	ListNode * new = malloc(sizeof(ListNode));
 	TreeNode * newcent = malloc(sizeof(TreeNode));
 	if(new == NULL || newcent == NULL)
 	{
 		fprintf(stderr, "malloc fail in centroid\n");
 	}
-
+	new->treenode = newcent;
 	// Use a loop to average the data from the two parameters (x and y).
 	/*
 	EXAMPLE
@@ -61,18 +60,15 @@ ListNode* FindCentroid(TreeNode* x, TreeNode* y)
 	Average x->treenode.data[1] and y->treenode.data[1] to new->treenode.data[1]
 	and so on
 	*/
-	
-	newcent->left = x;
-	newcent->right = y;
-
-	newcent->data = malloc(sizeof(int) * x->dimension);
+	/*new -> treenode->*/ newcent->left = x;
+	/*new -> treenode->*/newcent->right = y;
+	newcent -> data = malloc(sizeof(int) * x->dimension);
 	newcent->dimension = x->dimension;
 
 	for(int i = 0; i < x->dimension; i++)
 	{
 		newcent->data[i] = (x->data[i] + y->data[i]) / 2 ;
 	}
-	new->treenode = newcent;
 	return(new);
 	// Return the new node
 }
@@ -113,28 +109,30 @@ ListNode* Fuse(ListNode* head, ListNode* fuse1, ListNode* fuse2)
 	}
 	element -> treenode = eltree;
 	element ->treenode->dimension = head->treenode->dimension;
-	
-	element = FindCentroid(fuse1->treenode,fuse2->treenode);
-	
-	element->next = head; //save element infront of head that way we can make sure that the first nodes are popped incase they are in the location given by head
-	ListNode * temp = element;
-	
+	//for(int i = 0; i < (head->treenode->dimension); i++)
+	//{
+		element = FindCentroid(fuse1->treenode,fuse2->treenode);
+		//element->treenode->left = fuse1->treenode->data;
+		//element->treenode->right = fuse2->treenode->data;
+	//}
+	ListNode * temp = head;
 	while(temp->next != NULL)
 	{
-		if(temp->next == fuse1 || temp->next == fuse2)
+		if(temp->next == fuse1)
 		{
-			temp->next = temp->next->next;//fuse1->next;
+			temp->next = fuse1->next;
 		}
-		if(temp->next == fuse2 || temp->next == fuse1)
+		if(temp->next == fuse2)
 		{
-			temp->next = temp->next->next;//fuse2->next;
+			temp->next = fuse2->next;
 		}
 		if(temp->next != NULL)
 		{
 			temp = temp->next;
 		}
 	}
-	return(element);
+	temp->next = element;
+	return temp;
 }
 #endif
 
@@ -166,7 +164,6 @@ ListNode* CreateNode(int n, int dim, int* arr)
 	{
 		new -> data[i] = arr[i];
 	}
-	// return a ListNode
 	return head;
 }
 #endif
@@ -179,8 +176,8 @@ void LinkedListCreate(ListNode ** head, int n, int dim, FILE* fptr)
 	ListNode * one = NULL;
  	ListNode * two = NULL;
  	int spot = 0;
- 	
-	int * arr = malloc(sizeof(int) * n * dim);
+ 	//fseek(fptr, 1, SEEK_CUR);
+ 	int * arr = malloc(sizeof(int) * n * dim);
  	for(int q = 0; q < (n * dim); q++)
  	{
 		 fscanf(fptr, "%d", &arr[q]);
@@ -213,23 +210,22 @@ void MakeCluster(ListNode** head)
 	// fuse the two nodes into one node.
 	// call print function
 	// repeat till one node is remaining.
-	ListNode * one = (*head);
+	ListNode * one = *head;
 	ListNode * two = NULL;
 	ListNode * newone = NULL;
 	ListNode * newtwo = NULL;
-	ListNode * hold = (*head);
 	ListNode * temp = NULL;
-	int max = 2147483647;
+	//ListNode * newhead = NULL;
+	int max = (2^32) - 1;
 	int dist = 0;
-while(hold->next != NULL)
-{
+	while((*head)->next != NULL)
+	{
 	while(one->next != NULL)
 	{
-		two = one->next;
 		while(two != NULL)
 		{
 			dist = FindDist(one->treenode, two->treenode);
-			if(dist <= max)
+			if(dist <= max);
 			{
 				max = dist;
 				newone = one;
@@ -238,26 +234,14 @@ while(hold->next != NULL)
 			two = two->next;
 		}
 		one = one->next;
+		two = one->next;
 	}
+		temp = Fuse(*head, newone, newtwo); // might need to set this equal to something
+		PrintAns(*head, newone, newtwo);
+		one = *head;
+		dist = 0;
+		max = (2^31) + 1;
 
-	for(int i = 0; i < one->treenode->dimension; i++)
-	{
-		if(newone->treenode->data[i] > newtwo->treenode->data[i])
-		{
-			temp = newtwo;
-			newtwo = newone;
-			newone = temp;
-		}
-		if(newone->treenode->data[i] < newtwo->treenode->data[i])
-		{
-			i = one->treenode->dimension;
-		}
 	}
-	hold = Fuse(hold, newone, newtwo); // might need to set this equal to something
-	PrintAns(hold, newone, newtwo);
-	one = hold; 
-	max = 2147483647;
-
-}
 }
 #endif
