@@ -107,7 +107,7 @@ ListNode* Fuse(ListNode* head, ListNode* fuse1, ListNode* fuse2)
 	}
 	element -> treenode = eltree;
 	element ->treenode->dimension = head->treenode->dimension;
-	for(int i = 0; i < (head->dimension); i++)
+	for(int i = 0; i < (head->treenode->dimension); i++)
 	{
 		element = FindCentroid(fuse1->treenode,fuse2->treenode);
 		//element->treenode->left = fuse1->treenode->data;
@@ -206,7 +206,7 @@ void MakeCluster(ListNode** head)
 	// fuse the two nodes into one node.
 	// call print function
 	// repeat till one node is remaining.
-	ListNode * one = *head
+	ListNode * one = *head;
 	ListNode * two = NULL;
 	ListNode * newone = NULL;
 	ListNode * newtwo = NULL;
@@ -228,8 +228,8 @@ void MakeCluster(ListNode** head)
 			}
 			two = two->next;
 		}
-		*head = Fuze(head, newone, newtwo); // might need to set this equal to something
-		PrintAnswer(head, newone, newtwo);
+		*head = Fuse(*head, newone, newtwo); // might need to set this equal to something
+		PrintAns(*head, newone, newtwo);
 
 		one = one->next;
 	}
