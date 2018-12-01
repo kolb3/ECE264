@@ -211,7 +211,7 @@ void MakeCluster(ListNode** head)
 	ListNode * newone = NULL;
 	ListNode * newtwo = NULL;
 	//ListNode * hold = NULL;
-	ListNode * newhead = NULL;
+	//ListNode * newhead = NULL;
 	int max = (2^32) -1;
 	int dist = 0;
 	while(one->next != NULL)
