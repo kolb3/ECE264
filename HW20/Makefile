@@ -15,7 +15,7 @@ hw19: $(OBJS)
 	$(GCC) $(TESTFLAGS) -c $*.c
 
 testmemory: hw20
-		$(VAL) ./hw20 input/input1.bin > output1.txt
+		$(VAL) ./hw20 input/input1.bin output1.txt
 
 testall: test1 test2 test3 test4 test5 test6 test7 test8
 
