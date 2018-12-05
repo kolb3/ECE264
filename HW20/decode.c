@@ -1,6 +1,6 @@
 // Modify this file at said locations
 #include "decode.h"
-#include "constant.h"
+//#include "constant.h"
 // #include "freq.h"
 #include "list.h"
 #include "utility.h"
@@ -40,7 +40,7 @@ TreeNode * readHeader(FILE * infptr)
     if(onebit == 1)
     {
       int bitcount;
-      unsigned cahr value = 0;
+      unsigned char value = 0;
       for(bitcount = 0; bitcount < 8; bitcount++)
       {
         value <<= 1;
@@ -88,22 +88,25 @@ int decode(char * infile, char * outfile)
 	// Do not use your own print functions
 	// free up the memory
   FILE * infptr = fopen(infile, "r");
-  FILE * outptr = fopen(outfile, "w");
+  FILE * outfptr = fopen(outfile, "w");
   if(infptr == NULL)
   {
     return 0;
   }
   TreeNode * root = readHeader(infptr);
-  Tree_print(root, outptr);
+  //Tree_print(root, outfptr);
 
   unsigned int numChar = 0;
   fread(&numChar, sizeof(unsigned int), 1, infptr);
-  if(newline != '\n')
+  //printf("numChar = %d\n", numChar);
+  unsigned char newline = 0;
+  fread(&newline, sizeof(unsigned char),1, infptr);
+  /*if(newline != '\n')
   {
     printf("ERROR!\n");
   }
   unsigned char whichbit = 0;
-  unsigned char onbit = 0;
+  unsigned char onebit = 0;
   unsigned char curbyte = 0;
 
   while(numChar != 0)
@@ -124,7 +127,9 @@ int decode(char * infile, char * outfile)
     printf("%c", tn->value);
     fprintf(outfptr, "%c", tn->value);
     numChar--;
-  }
+  }*/
+  Tree_print(root, outfptr);
+  PrintNumberChar(numChar, outfptr);
   Tree_destroy(root);
   fclose(infptr);
   fclose(outfptr);
