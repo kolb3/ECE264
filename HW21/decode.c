@@ -17,6 +17,48 @@ You Can Modify below, Do Not modify above this
 TreeNode * readHeader(FILE * infptr)
 {
   // This is the same function from HW20
+  int done = 0;
+  unsigned char whichbit = 0;
+  unsigned char curbyte = 0;
+  unsigned char onebit = 0;
+  ListNode * head = NULL;
+
+  while(done == 0)
+  {
+    readBit(infptr, &onebit, &whichbit, &curbyte);
+    if(onebit == 1)
+    {
+      int bitcount;
+      unsigned char value = 0;
+      for(bitcount = 0; bitcount < 8; bitcount++)
+      {
+        value <<= 1;
+        readBit(infptr, &onebit, &whichbit, &curbyte);
+        value |= onebit;
+      }
+      TreeNode * tn = TreeNode_create(value, 0);
+      ListNode * ln = ListNode_create(tn);
+      head = List_insert(head,ln);
+    }
+    else
+    {
+      if(head == NULL)
+      {
+        printf("ERROR, head should bot be NULL\n");
+      }
+      if((head->next) == NULL)
+      {
+        done = 1;
+      }
+      else
+      {
+        head = MergeListNode(head);
+      }
+    }
+  }
+  TreeNode * root = head -> tnptr;
+  free(head);
+  return root;
 }
 
 #endif
@@ -33,6 +75,54 @@ int decode(char * infile, char * outfile)
   // (same as in last assignment), then printing number of characters using PrintNumberChar
   // function (same as in previous assignment using) and then printing each decoded character into
   // the outfile.
+  FILE * infptr = fopen(infile, "r");
+  FILE * outfptr = fopen(outfile, "w");
+  if(infptr == NULL)
+  {
+    return 0;
+  }
+  TreeNode * root = readHeader(infptr);
+  //Tree_print(root, outfptr);
 
+  unsigned int numChar = 0;
+  fread(&numChar, sizeof(unsigned int), 1, infptr);
+  //printf("numChar = %d\n", numChar);
+  unsigned char newline = 0;
+  fread(&newline, sizeof(unsigned char),1, infptr);
+  Tree_print(root, outfptr);
+  PrintNumberChar(numChar, outfptr);
+  if(newline != '\n')
+  {
+    printf("ERROR!\n");
+  }
+  unsigned char whichbit = 0;
+  unsigned char onebit = 0;
+  unsigned char curbyte = 0;
+
+  while(numChar != 0)
+  {
+    TreeNode * tn = root;
+    while((tn->left) != NULL)
+    {
+      readBit(infptr, &onebit, &whichbit, &curbyte);
+      if(onebit == 0)
+      {
+        tn = tn -> left;
+      }
+      else
+      {
+        tn = tn -> right;
+      }
+    }
+    printf("%c", tn->value);
+    fprintf(outfptr, "%c", tn->value);
+    numChar--;
+  }
+  //Tree_print(root, outfptr);
+  //PrintNumberChar(numChar, outfptr);
+  Tree_destroy(root);
+  fclose(infptr);
+  fclose(outfptr);
+  return 1;
 }
 #endif
