@@ -1,6 +1,6 @@
 // Modify this file at said locations
 #include "decode.h"
-#include "constant.h"
+//#include "constant.h"
 // #include "freq.h"
 #include "list.h"
 #include "utility.h"
@@ -114,7 +114,7 @@ int decode(char * infile, char * outfile)
         tn = tn -> right;
       }
     }
-    printf("%c", tn->value);
+    //printf("%c", tn->value);
     fprintf(outfptr, "%c", tn->value);
     numChar--;
   }
